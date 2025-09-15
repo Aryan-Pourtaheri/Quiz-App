@@ -28,7 +28,7 @@ export default function QuizPage() {
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const router = useRouter();
-  
+
 
   const handleSelect = (option: string) => {
     setSelected(option);
@@ -127,9 +127,6 @@ export default function QuizPage() {
     </main>
   );
 }
-
-
-
 
 // QuestionCard component
 type QuestionCardProps = {

@@ -10,6 +10,7 @@ export default function Main() {
   // pt-20 ensures content never goes behind navbar (navbar is py-4 = 4rem)
   return (
     <main className="relative flex flex-col items-center justify-center min-h-screen p-8 overflow-hidden pt-60 pb-8 text-[var(--foreground)]">
+
       {/* Animated, vibrant background shapes */}
       <motion.div
         className="absolute inset-0 -z-20 pointer-events-none"
@@ -185,7 +186,7 @@ export default function Main() {
               <ul className="mb-4 text-[var(--foreground)]">
                 {plan.features.map(f => <li key={f}>{f}</li>)}
               </ul>
-              <button className={`w-full px-4 py-2 rounded font-semibold transition ${plan.btnClass} shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#3b5bfd]/40 dark:focus:ring-[#fbbf24]/40`}>{plan.btn}</button>
+              <button className={`w-full px-4 py-2 rounded font-semibold transition ${plan.btnClass} shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#3b5bfd]/40 dark:focus:ring-[#fbbf24]/40`}><Link href={''}>{plan.btn}</Link></button>
             </motion.div>
           ))}
         </div>
