@@ -16,7 +16,6 @@ export default function Header() {
         <Link href="#about" className="text-white dark:text-[#fbbf24] hover:text-blue-200 dark:hover:text-yellow-300 font-medium transition">About</Link>
         <Link href="#pricing" className="text-white dark:text-[#fbbf24] hover:text-blue-200 dark:hover:text-yellow-300 font-medium transition">Pricing</Link>
         <Link href="#contact" className="text-white dark:text-[#fbbf24] hover:text-blue-200 dark:hover:text-yellow-300 font-medium transition">Contact</Link>
-        <Link href="#pages" className="text-white dark:text-[#fbbf24] hover:text-blue-200 dark:hover:text-yellow-300 font-medium transition">Pages</Link>
       </div>
       <div className="flex items-center gap-2">
         <button
@@ -66,8 +65,8 @@ export default function Header() {
             )}
           </AnimatePresence>
         </button>
-        <Link href="/login" className="px-4 py-2 rounded text-[#3b5bfd] dark:text-[#fbbf24] bg-white dark:bg-[#181e2a] font-semibold hover:bg-blue-100 dark:hover:bg-[#232c43] transition">Sign In</Link>
-        <Link href="/login" className="px-4 py-2 rounded bg-white/20 dark:bg-[#fbbf24]/20 border border-white dark:border-[#fbbf24] text-white dark:text-[#fbbf24] font-semibold hover:bg-white hover:text-[#3b5bfd] dark:hover:bg-[#fbbf24] dark:hover:text-[#181e2a] transition">Sign Up</Link>
+        <Link href="/components/auth/login" className="px-4 py-2 rounded text-[#3b5bfd] dark:text-[#fbbf24] bg-white dark:bg-[#181e2a] font-semibold hover:bg-blue-100 dark:hover:bg-[#232c43] transition">Sign In</Link>
+        <Link href="/components/auth/signup" className="px-4 py-2 rounded bg-white/20 dark:bg-[#fbbf24]/20 border border-white dark:border-[#fbbf24] text-white dark:text-[#fbbf24] font-semibold hover:bg-white hover:text-[#3b5bfd] dark:hover:bg-[#fbbf24] dark:hover:text-[#181e2a] transition">Sign Up</Link>
       </div>
     </nav>
   );
