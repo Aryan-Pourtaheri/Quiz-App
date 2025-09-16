@@ -97,7 +97,7 @@ const AdminDashboard = () => {
         <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
           <div>
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">Dashboard</h2>
-            <p className="text-gray-600 text-sm sm:text-base">Welcome back! Here's what's happening today.</p>
+            <p className="text-gray-600 text-sm sm:text-base">Welcome back! Heres what&apos;s happening today.</p>
           </div>
 
           {/* Search + Notification */}
