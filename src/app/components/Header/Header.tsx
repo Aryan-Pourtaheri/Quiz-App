@@ -73,7 +73,7 @@ export default function Header() {
                 open: { height: "auto", opacity: 1, transition: { duration: 0.3, when: "beforeChildren", staggerChildren: 0.1 } },
                 closed: { height: 0, opacity: 0, transition: { duration: 0.3, when: "afterChildren" } }
               }}
-              className="md:hidden flex flex-col bg-[#3b5bfd] dark:bg-[#181e2a] px-4 py-4 text-white dark:text-[#fbbf24] z-10 shadow-md mt-14 overflow-hidden"
+              className="md:hidden flex flex-col bg-[var(--navbar)] px-4 py-4 text-[var(--foreground)] z-10 shadow-md mt-14 overflow-hidden"
             >
               <motion.div
                 variants={{
