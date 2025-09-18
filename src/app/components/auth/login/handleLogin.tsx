@@ -1,5 +1,7 @@
 import { supabase } from '@/app/lib/supabase-client';
 import { UserType } from './page';
+import { useRouter } from 'next/router';
+import { redirect } from 'next/navigation';
 
 export const handleLoginSubmit = async (
   e: React.FormEvent,
@@ -7,6 +9,7 @@ export const handleLoginSubmit = async (
   resetForm: () => void
 ): Promise<{ success: boolean; error?: string }> => {
   e.preventDefault();
+
 
   const { data, error } = await supabase.auth.signInWithPassword({
     email: user.email,
@@ -21,6 +24,6 @@ export const handleLoginSubmit = async (
     return { success: false, error: error.message };
   } else {
     resetForm();
-    return { success: true };
+    redirect('/')
   }
 };

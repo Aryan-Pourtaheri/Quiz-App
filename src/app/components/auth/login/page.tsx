@@ -24,6 +24,9 @@ export interface UserType {
 
 
 export default function LoginPage() {
+
+
+
   const [user, setUser] = useState<UserType>({
     email: '',
     password: ''
@@ -35,7 +38,7 @@ export default function LoginPage() {
       password: ''
     });
   }
-  
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#1e293b] via-[#3b82f6] to-[#fbbf24] flex flex-col">
       <Navbar />
