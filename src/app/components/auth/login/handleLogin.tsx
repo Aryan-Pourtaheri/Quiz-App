@@ -1,12 +1,26 @@
 import { supabase } from '@/app/lib/supabase-client';
-import React from 'react'
+import { UserType } from './page';
 
-export const handleLoginSubmit = async (e: React.FormEvent, user, resetForm) => {
+export const handleLoginSubmit = async (
+  e: React.FormEvent,
+  user: UserType,
+  resetForm: () => void
+): Promise<{ success: boolean; error?: string }> => {
   e.preventDefault();
-  const {error} = await supabase.from("users").select("*").order("created_at", {ascending: true});
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: user.email,
+    password: user.password,
+  });
+
+  console.log("User:", user);
+
   if (error) {
-    console.log("Error signing up: ", error.message);
-  } else if (user.email === "" || user.password === "") {
+    console.log("DATA:", data);
+    console.log("ERROR:", error);
+    return { success: false, error: error.message };
+  } else {
     resetForm();
+    return { success: true };
   }
-}
+};

@@ -8,7 +8,7 @@ export const HandleSignupSubmit = (e: FormEvent<HTMLFormElement>, newUser: NewUs
   
   async function handleSubmit () {
     e.preventDefault();
-    const {error} = await supabase.from("users").insert(newUser).single();
+    const { error } = await supabase.auth.signUp(newUser);
     if (error) {
       console.log("Error signing up: " , error.message);
     } else {
