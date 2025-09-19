@@ -1,15 +1,17 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useTheme } from "../ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
 import ThemButton  from "./ThemButton";
 import "./header.css";
+import { SessionContext, useSession } from "../SessionContext";
 
 export default function Header() {
+  const { session } = useSession();
+  console.log(session);
   const { theme, toggleTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   return (
     <>
       
