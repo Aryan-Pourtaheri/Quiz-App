@@ -10,12 +10,25 @@ export const HandleSignupSubmit = async (
 ) => {
   e.preventDefault();
 
-  const { error } = await supabase.auth.signUp(newUser);
+  const { email, password, name, surname, DateOfBirth } = newUser;
+
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        name,
+        surname,
+        DateOfBirth,
+      },
+      emailRedirectTo: `${window.location.origin}/auth/callback`, // optional but recommended
+    },
+  });
 
   if (error) {
-    setMessage(`❌ ${error.message}`, false); // false = error
+    setMessage(`❌ ${error.message}`, false);
   } else {
-    setMessage("✅ Sign up successful! Check your email to confirm.", true); // true = success
+    setMessage("✅ Sign up successful! Check your email to confirm.", true);
     resetUser();
   }
 };

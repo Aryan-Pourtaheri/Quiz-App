@@ -1,6 +1,5 @@
 import { supabase } from '@/app/lib/supabase-client';
 import { UserType } from './page';
-import { useRouter } from 'next/router';
 import { redirect } from 'next/navigation';
 
 export const handleLoginSubmit = async (
