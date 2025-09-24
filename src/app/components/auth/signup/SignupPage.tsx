@@ -27,21 +27,27 @@ export default function SignupPage() {
 
   return (
     <AuthLayout type="signup">
-      <h2 className="text-3xl font-bold mb-6 text-[#1e293b]">Sign Up</h2>
+      <h2 className="text-3xl font-bold mb-6 text-[var(--text-color)]">Sign Up</h2>
       <form onSubmit={e => HandleSignupSubmit(e, newUser, resetUser, setMessage)} className="w-full flex flex-col gap-4">
         <input name="name" type="text" placeholder="Name" value={newUser.name} onChange={changeUserData} className="px-4 py-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3b82f6]" required />
+        
         <input name="surname" type="text" placeholder="Surname" value={newUser.surname} onChange={changeUserData} className="px-4 py-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3b82f6]" required />
+        
         <input name="email" type="email" placeholder="Email" value={newUser.email} onChange={changeUserData} className="px-4 py-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3b82f6]" required />
+        
         <input name="DateOfBirth" type="date" placeholder="Date of Birth" value={newUser.DateOfBirth} onChange={changeUserData} className="px-4 py-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3b82f6]" required />
+       
         <input name="password" type="password" placeholder="Password" className="px-4 py-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3b82f6]" required />
+        
         <input type="password" placeholder="Confirm Password" onChange={checkPassword} className="px-4 py-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3b82f6]" required />
+      
         <button type="submit" className="w-full py-3 rounded bg-[#fbbf24] text-[#1e293b] font-bold hover:bg-yellow-400 transition">
           Sign Up
         </button>
       </form>
       {message && <p className={`mt-2 text-center text-sm ${message.success ? "text-green-600" : "text-red-600"}`}>{message.text}</p>}
       <p className="mt-4 text-sm text-gray-700">
-        Already have an account? <Link href="/auth/login" className="text-[#3b82f6] font-semibold hover:underline">Login</Link>
+        Already have an account? <Link href="/components/auth/login" className="text-[#3b82f6] font-semibold hover:underline">Login</Link>
       </p>
     </AuthLayout>
   );
