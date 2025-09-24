@@ -35,7 +35,7 @@ export default function LoginPage() {
         </button>
       </form>
       <p className="mt-4 text-sm text-gray-700">
-        Don’t have an account? <Link href="/auth/signup" className="text-[#3b82f6] font-semibold hover:underline">Sign Up</Link>
+        Don&apos;t have an account? <Link href="/auth/signup" className="text-[#3b82f6] font-semibold hover:underline">Sign Up</Link>
       </p>
     </AuthLayout>
   );

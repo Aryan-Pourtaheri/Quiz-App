@@ -1,18 +1,7 @@
 'use client';
 import { useState, createContext, ReactNode } from 'react';
+import { NewUserType, UserContextType, } from '@/app/lib/Types';
 
-export interface NewUserType {
-  name: string;
-  surname: string;
-  DateOfBirth: string;
-  email: string;
-  password: string;
-}
-
-interface UserContextType {
-  newUser: NewUserType;
-  setNewUser: React.Dispatch<React.SetStateAction<NewUserType>>;
-}
 
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 

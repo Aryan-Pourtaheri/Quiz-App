@@ -1,5 +1,5 @@
 import { supabase } from '@/app/lib/supabase-client';
-import { UserType } from './page';
+import { UserType } from '@/app/lib/Types';
 import { redirect } from 'next/navigation';
 
 export const handleLoginSubmit = async (
@@ -10,7 +10,7 @@ export const handleLoginSubmit = async (
   e.preventDefault();
 
 
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithPassword  ({
     email: user.email,
     password: user.password,
   });
