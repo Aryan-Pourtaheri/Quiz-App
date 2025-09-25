@@ -3,13 +3,14 @@ export interface UserType {
     password: string
 }
 
-export interface NewUserType {
+export type NewUserType = {
   name: string;
   surname: string;
-  DateOfBirth: string;
   email: string;
+  DateOfBirth: string;
   password: string;
-}
+};
+
 
 export interface UserContextType {
   newUser: NewUserType;

@@ -1,5 +1,5 @@
 import { supabase } from "@/app/lib/supabase-client";
-import { NewUserType } from "./newUserContext";
+import { NewUserType } from "@/app/lib/Types";
 import { FormEvent } from "react";
 
 export const HandleSignupSubmit = async (
