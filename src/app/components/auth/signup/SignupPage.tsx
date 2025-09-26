@@ -6,15 +6,24 @@ import { UserContext } from "./newUserContext";
 import { HandleSignupSubmit } from "./HandleSignup";
 import AuthLayout from "../AuthLayout";
 
-export default function SignupPage() {
+function SignupPage() {
   const ctx = useContext(UserContext);
+
   const [message, setMessage] = useState<{ text: string; success?: boolean } | null>(null);
+
   const [password, setPassword] = useState("");
+  
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // Hooks are called here unconditionally, no early return.
+  useEffect(() => {
+    if (message) {
+      const timeout = setTimeout(() => setMessage(null), 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [message]);
 
-  // Check ctx for rendering, but do not skip hooks
+
+  // If context is missing, just show a message (after hooks)
   if (!ctx) {
     return <p className="text-red-500 text-center mt-20">⚠️ No UserContext provider found</p>;
   }
@@ -54,19 +63,16 @@ export default function SignupPage() {
     });
   };
 
-  // Auto-dismiss message after 5s
-  useEffect(() => {
-    if (message) {
-      const timeout = setTimeout(() => setMessage(null), 5000);
-      return () => clearTimeout(timeout);
-    }
-  }, [message]);
+
+  const showMessage = (text: string, success?: boolean) => {
+    setMessage({ text, success });
+  };
 
   return (
     <AuthLayout type="signup">
       <h2 className="text-3xl font-bold mb-6 text-[var(--text-color)]">Sign Up</h2>
       <form
-        onSubmit={e => HandleSignupSubmit(e, newUser, resetUser, setMessage)}
+        onSubmit={e => HandleSignupSubmit(e, newUser, resetUser, showMessage)}
         className="w-full flex flex-col gap-4"
       >
         <input
@@ -155,3 +161,5 @@ export default function SignupPage() {
     </AuthLayout>
   );
 }
+
+export default SignupPage;
