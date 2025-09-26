@@ -8,11 +8,7 @@ import {
   LayoutDashboard,
   Bell,
   Search,
-  Calendar,
-  Activity,
   TrendingUp,
-  CheckCircle,
-  Clock,
 } from "lucide-react";
 
 const AdminDashboard = () => {

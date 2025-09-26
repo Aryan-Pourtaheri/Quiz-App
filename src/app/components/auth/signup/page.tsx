@@ -1,4 +1,3 @@
-import AuthLayout from "../AuthLayout";
 import { UserProvider } from "./newUserContext";
 import SignupPage from "./SignupPage";
 

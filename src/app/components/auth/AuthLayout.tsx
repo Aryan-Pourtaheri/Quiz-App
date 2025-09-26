@@ -1,4 +1,5 @@
 'use client';
+import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -31,9 +32,9 @@ export default function AuthLayout({ children, type }: AuthLayoutProps) {
             : "bg-gradient-to-br from-pink-500 via-yellow-400 to-orange-400"
         }`}
       >
-        <img
-          src={"/assets/quiz-illu.jpg" }
-          alt={"Quiz Illustration"}
+        <Image
+          src="/assets/quiz-illu.jpg" 
+          alt="Quiz Illustration"
           className="w-3/4 h-auto object-cover rounded-lg shadow-lg mb-6"
         />
         <h2 className="text-3xl font-bold mb-2">
