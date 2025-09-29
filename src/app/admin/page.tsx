@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import {
   Users,
   FileText,
@@ -32,126 +33,102 @@ const AdminDashboard = () => {
     { label: "Reports", value: 5, color: "#3b82f6", icon: BarChart3 },
   ];
 
-  const activityLog = [
-    'Quiz "Math Final" created by Teacher A',
-    'Student B completed "Science Quiz"',
-    'Teacher C reviewed results for "History Quiz"',
-    "New user registered: Student D",
-  ];
-
-  const upcomingMeetings = [
-    "Staff Meeting - Sep 15, 10:00 AM",
-    "Quiz Review - Sep 18, 2:00 PM",
-  ];
-
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
       {/* Sidebar */}
-      <aside className="w-full lg:w-64 bg-white shadow-lg border-r border-gray-200 flex-shrink-0">
-        <div className="p-4 lg:p-6 border-b border-gray-200 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-semibold text-sm">{sidebarData.initials}</span>
-            </div>
-            <div>
-              <h1 className="text-lg lg:text-xl font-bold text-gray-800">{sidebarData.title}</h1>
-              <p className="text-sm text-gray-500 hidden lg:block">Dashboard</p>
-            </div>
+      <motion.aside
+        initial={{ x: -200 }}
+        animate={{ x: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="w-full lg:w-64 bg-white shadow-lg border-r border-gray-200 flex-shrink-0"
+      >
+        <div className="p-6 border-b border-gray-200 flex items-center space-x-3">
+          <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+            <span className="text-white font-semibold text-sm">
+              {sidebarData.initials}
+            </span>
           </div>
-          {/* Mobile Hamburger */}
-          <button className="lg:hidden p-2 rounded-md hover:bg-gray-100">
-            <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
-          </button>
+          <h1 className="text-lg font-bold text-gray-800">{sidebarData.title}</h1>
         </div>
 
-        <nav className="flex flex-col mt-4 space-y-1 px-2 lg:px-6">
+        <nav className="flex flex-col mt-4 space-y-1 px-4">
           {sidebarData.links.map((link) => {
             const IconComponent = link.icon;
             return (
-              <button
+              <motion.button
                 key={link.label}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => setActiveLink(link.label)}
-                className={`w-full flex items-center space-x-3 px-4 py-2 rounded-lg text-left transition-colors duration-200 ${
+                className={`flex items-center space-x-3 px-4 py-2 rounded-lg transition-colors ${
                   activeLink === link.label
-                    ? "bg-blue-50 text-blue-700"
-                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-800"
+                    ? "bg-blue-100 text-blue-700"
+                    : "text-gray-600 hover:bg-gray-100"
                 }`}
               >
                 <IconComponent size={20} />
-                <span className="font-medium text-sm lg:text-base">{link.label}</span>
-              </button>
+                <span>{link.label}</span>
+              </motion.button>
             );
           })}
         </nav>
-      </aside>
+      </motion.aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-4 sm:p-6 overflow-y-auto">
-        {/* Header */}
-        <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">Dashboard</h2>
-            <p className="text-gray-600 text-sm sm:text-base">Welcome back! Heres what&apos;s happening today.</p>
-          </div>
-
-          {/* Search + Notification */}
-          <div className="mt-3 sm:mt-0 flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full sm:w-auto">
-            {/* Search */}
-            <div className="relative w-full sm:w-64 lg:w-80 transition-all duration-300 group">
-              <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500">
-                <Search size={20} />
-              </span>
+      <motion.main
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+        className="flex-1 p-6"
+      >
+        <header className="flex justify-between items-center mb-6">
+          <h2 className="text-3xl font-bold text-gray-800">Admin Dashboard</h2>
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <Search className="absolute left-3 top-2 text-gray-400" size={18} />
               <input
                 type="text"
                 placeholder="Search..."
-                className="w-full pl-12 pr-4 py-2 rounded-full border border-gray-300 shadow-sm placeholder-gray-400 text-gray-700
-                          focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-500 hover:shadow-md focus:shadow-lg transition-all duration-300"
+                className="pl-10 pr-4 py-2 rounded-full border focus:ring-2 focus:ring-blue-300"
               />
             </div>
-
-            {/* Notifications */}
-            <button className="relative p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors">
+            <motion.button
+              whileHover={{ rotate: 15 }}
+              className="relative p-2 rounded-full hover:bg-gray-100"
+            >
               <Bell size={20} />
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
-            </button>
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span>
+            </motion.button>
           </div>
         </header>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {stats.map((stat, index) => {
-            const IconComponent = stat.icon;
+        {/* Stats */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {stats.map((stat, i) => {
+            const Icon = stat.icon;
             return (
-              <div key={index} className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
-                <div className="flex items-center justify-between">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.2 }}
+                className="bg-white p-4 rounded-xl shadow hover:shadow-md border"
+              >
+                <div className="flex justify-between">
                   <div>
-                    <p className="text-xs sm:text-sm font-medium text-gray-600 mb-1">{stat.label}</p>
-                    <p className="text-xl sm:text-2xl font-bold text-gray-800">{stat.value.toLocaleString()}</p>
+                    <p className="text-gray-500 text-sm">{stat.label}</p>
+                    <p className="text-2xl font-bold">{stat.value}</p>
                   </div>
                   <div className="p-2 rounded-lg" style={{ backgroundColor: `${stat.color}20` }}>
-                    <IconComponent size={24} style={{ color: stat.color }} />
+                    <Icon size={24} style={{ color: stat.color }} />
                   </div>
                 </div>
-                <div className="flex items-center mt-2 text-xs sm:text-sm">
-                  <TrendingUp size={14} className="text-green-500 mr-1" />
-                  <span className="text-green-600 font-medium">+12%</span>
-                  <span className="text-gray-500 ml-1">vs last month</span>
-                </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
-
-        {/* Activity & Meetings */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-6">
-          {/* Activity Log & Upcoming Meetings code remains same but responsive text & spacing */}
-        </div>
-      </main>
+      </motion.main>
     </div>
-
-
   );
 };
 
