@@ -1,34 +1,29 @@
 "use client";
 
-import { useContext, useEffect, useState, createContext, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { supabase } from "../lib/supabase-client";
 import type { Session } from "@supabase/supabase-js";
 
 interface SessionContextType {
   session: Session | null;
-  setSession: React.Dispatch<React.SetStateAction<Session | null>>;
+  setSession: (session: Session | null) => void;
 }
 
-// Create context
-export const SessionContext = createContext<SessionContextType | undefined>(undefined);
+const SessionContext = createContext<SessionContextType | undefined>(undefined);
 
-// Provider component
 export const SessionProvider = ({ children }: { children: ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
-    const fetchSession = async () => {
-      const { data } = await supabase.auth.getSession();
+    supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
-    };
-    fetchSession();
+    });
 
-    // Listen to auth state changes
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { subscription } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
 
-    return () => listener.subscription.unsubscribe();
+    return () => subscription.unsubscribe();
   }, []);
 
   return (
@@ -38,8 +33,7 @@ export const SessionProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Custom hook
-export const useSession = () => {
+export const useSession = (): SessionContextType => {
   const context = useContext(SessionContext);
   if (!context) {
     throw new Error("useSession must be used within a SessionProvider");

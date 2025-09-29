@@ -51,7 +51,8 @@ const AdminDashboard = () => {
           <h1 className="text-lg font-bold text-gray-800">{sidebarData.title}</h1>
         </div>
 
-        <nav className="flex flex-col mt-4 space-y-1 px-4">
+        <nav className="flex flex-col mt-4 space-y-1 px-4"> 
+          
           {sidebarData.links.map((link) => {
             const IconComponent = link.icon;
             return (
