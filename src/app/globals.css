@@ -21,6 +21,7 @@
   --shadow: 0 4px 32px 0 rgba(59,91,253,0.08);
   --gradient: linear-gradient(135deg, #fbbf24 0%, #3b82f6 100%);
   --text-color: #171717;
+  --signout-btn: rgb(211, 0, 0);
 }
 
 .dark {
@@ -36,6 +37,8 @@
   --shadow: 0 4px 32px 0 rgba(251,191,36,0.08);
   --gradient: linear-gradient(135deg, #3b82f6 0%, #fbbf24 100%);
   --text-color: #fff;
+  --signout-btn: rgb(109, 4, 4);
+
 }
 
 body {
