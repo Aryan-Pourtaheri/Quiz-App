@@ -1,21 +1,47 @@
 @import "tailwindcss";
 
-.NavbarStyle {
-  @apply w-full flex items-center justify-between 
-         py-3 px-4 sm:px-6 md:px-8;
+.navbar {
+  @apply fixed top-0 left-0 w-full z-50 bg-[var(--navbar)] text-[var(--foreground)] shadow-md;
+}
+
+.nav-container {
+  @apply flex justify-between items-center px-6 py-4 max-w-7xl mx-auto;
+}
+
+/* Logo */
+.logo {
+  @apply flex items-center gap-2;
+}
+.logo-icon {
+  @apply bg-white dark:bg-[#fbbf24] rounded-full w-10 h-10 flex items-center justify-center font-bold text-[#3b5bfd] text-xl shadow-sm;
+}
+.logo-text {
+  @apply text-white dark:text-[#fbbf24] text-2xl font-bold tracking-wide;
+}
+
+/* Links */
+.nav-links {
+  @apply hidden md:flex items-center gap-6;
 }
 .nav-link {
-  @apply text-white dark:text-[#fbbf24] hover:text-blue-200 dark:hover:text-yellow-300 font-medium transition;
+  @apply text-white dark:text-[#fbbf24] font-medium transition hover:text-blue-200 dark:hover:text-yellow-300;
 }
 
-.mobile-link {
-  @apply text-white dark:text-[#fbbf24] hover:text-blue-200 dark:hover:text-yellow-300 font-medium transition ;
-}
-
+/* Buttons */
 .btn-signin {
-  @apply px-4 py-2 rounded text-[#3b5bfd] dark:text-[#fbbf24] bg-white dark:bg-[#181e2a] font-semibold hover:bg-blue-100 dark:hover:bg-[#232c43] transition;
+  @apply px-4 py-2 rounded-lg text-[#3b5bfd] dark:text-[#fbbf24] bg-white dark:bg-[#181e2a]
+         font-semibold hover:bg-blue-100 dark:hover:bg-[#232c43] transition;
+}
+.btn-signup {
+  @apply px-4 py-2 rounded-lg border border-white dark:border-[#fbbf24]
+         bg-white/20 dark:bg-[#fbbf24]/20 text-white dark:text-[#fbbf24] font-semibold
+         hover:bg-white/30 dark:hover:bg-[#fbbf24]/30 transition;
 }
 
-.btn-signup {
-  @apply px-4 py-2 rounded bg-white/20 dark:bg-[#fbbf24]/20 border border-white dark:border-[#fbbf24] text-white dark:text-[#fbbf24] font-semibold hover:bg-white/30 dark:hover:bg-[#fbbf24]/30 transition;
+/* Mobile menu */
+.mobile-menu {
+  @apply md:hidden flex flex-col gap-4 px-6 pb-6 bg-[var(--navbar)];
+}
+.mobile-link {
+  @apply text-white dark:text-[#fbbf24] font-medium transition hover:text-blue-200 dark:hover:text-yellow-300;
 }
