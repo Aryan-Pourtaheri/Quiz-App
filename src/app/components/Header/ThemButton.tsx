@@ -7,7 +7,7 @@ const ThemButton = () => {
   const { theme } = useTheme();
   
   return (
-    <div>
+    <div className='m-2'>
       <AnimatePresence mode="wait" initial={false}>
         {theme === "light" ? (
           <motion.svg
