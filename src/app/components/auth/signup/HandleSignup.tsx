@@ -11,8 +11,7 @@ export const HandleSignupSubmit = async (
   e.preventDefault();
 
   const { email, password, name, surname, DateOfBirth } = newUser;
-
-  const { error } = await supabase.auth.signUp({
+  const { error } = await supabase  .from('users')  .insert({  
     email,
     password,
     options: {
@@ -22,8 +21,8 @@ export const HandleSignupSubmit = async (
         DateOfBirth,
       },
       emailRedirectTo: `${window.location.origin}/auth/callback`, // optional but recommended
-    },
-  });
+  },})
+   
 
   if (error) {
     setMessage(`❌ ${error.message}`, false);
