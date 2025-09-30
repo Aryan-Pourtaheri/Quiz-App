@@ -14,7 +14,7 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-[var(--navbar)] text-[var(--foreground)] shadow-lg">
+    <header className="fixed top-0 left-0 w-full z-50 bg-[var(--navbar)] text-[#fbbf24] shadow-lg">
       <nav className="flex justify-between items-center px-6 py-4">
         {/* Logo */}
         <div className="flex items-center gap-2">
@@ -38,7 +38,7 @@ export default function Header() {
         <div className="hidden md:flex items-center gap-3">
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-full border hover:bg-white/20 transition"
+            className="p-2 rounded-full bg-[#fbbe246e] hover:bg-white/20 transition"
           >
             <ThemButton />
           </button>
