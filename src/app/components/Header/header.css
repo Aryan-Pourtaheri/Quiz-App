@@ -45,3 +45,14 @@
 .mobile-link {
   @apply text-white dark:text-[#fbbf24] font-medium transition hover:text-blue-200 dark:hover:text-yellow-300;
 }
+
+.btn-xs {
+  @apply px-3 py-1.5 rounded text-sm font-medium text-[#3b5bfd] dark:text-[#fbbf24] 
+         bg-white dark:bg-[#181e2a] hover:bg-blue-100 dark:hover:bg-[#232c43] transition;
+}
+
+.btn-xs-alt {
+  @apply px-3 py-1.5 rounded text-sm font-medium 
+         bg-white/20 dark:bg-[#fbbf24]/20 border border-white dark:border-[#fbbf24] 
+         text-white dark:text-[#fbbf24] hover:bg-white/30 dark:hover:bg-[#fbbf24]/30 transition;
+}

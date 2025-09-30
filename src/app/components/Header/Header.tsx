@@ -18,7 +18,7 @@ export default function Header() {
       <nav className="flex justify-between items-center px-6 py-4">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <span className="bg-white dark:bg-[#fbbf24] rounded-full w-10 h-10 flex items-center justify-center font-bold text-[#3b5bfd] text-xl">
+          <span className="bg-white dark:bg-[#fbbf24] rounded-full w-10 h-10 flex items-center justify-center font-bold text-black text-xl">
             Q
           </span>
           <span className="text-white dark:text-[#fbbf24] text-2xl font-bold">
