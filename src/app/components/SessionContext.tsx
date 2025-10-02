@@ -1,43 +1,45 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
-import { supabase } from "@/app/lib/supabase-client";
-import type { Session } from "@supabase/supabase-js"; // ✅ import proper type
+
+type UserSession = {
+  id: number;
+  userId: string;
+  email: string;
+  name: string;
+  surname: string;
+  role: string;
+};
 
 type SessionContextType = {
-  session: Session | null;
-  signOut: () => Promise<void>;
+  session: UserSession | null;
+  signIn: (user: UserSession) => void;
+  signOut: () => void;
 };
 
 const SessionContext = createContext<SessionContextType | undefined>(undefined);
 
 export function SessionProvider({ children }: { children: React.ReactNode }) {
-  const [session, setSession] = useState<Session | null>(null);
+  const [session, setSession] = useState<UserSession | null>(null);
 
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-    });
-
-    // Listen for changes
-    const { data: subscription } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setSession(session);
-      }
-    );
-
-    return () => {
-      subscription.subscription.unsubscribe();
-    };
+    const storedSession = localStorage.getItem("session");
+    if (storedSession) {
+      setSession(JSON.parse(storedSession));
+    }
   }, []);
 
-  const signOut = async () => {
-    await supabase.auth.signOut();
+  const signIn = (user: UserSession) => {
+    localStorage.setItem("session", JSON.stringify(user));
+    setSession(user);
+  };
+
+  const signOut = () => {
+    localStorage.removeItem("session");
     setSession(null);
   };
 
   return (
-    <SessionContext.Provider value={{ session, signOut }}>
+    <SessionContext.Provider value={{ session, signIn, signOut }}>
       {children}
     </SessionContext.Provider>
   );
