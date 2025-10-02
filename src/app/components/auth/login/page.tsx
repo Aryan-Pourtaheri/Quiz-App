@@ -4,6 +4,7 @@ import AuthLayout from "../AuthLayout";
 import { handleLoginSubmit } from "./handleLogin";
 import Link from "next/link";
 import { useSession } from "../../SessionContext";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [user, setUser] = useState({ email: "", password: "" });
@@ -12,10 +13,16 @@ export default function LoginPage() {
   const resetForm = () => setUser({ email: "", password: "" });
 
   const { signIn } = useSession();
+  const router = useRouter();
 
   const onSubmit = async (e: React.FormEvent) => {
     const result = await handleLoginSubmit(e, user, resetForm, signIn);
     if (!result.success) {
+      setErrorMessage(result.error || "Login failed");
+    }
+    if (result.success) {
+      router.push("/"); // ✅ Navigate to homepage
+    } else {
       setErrorMessage(result.error || "Login failed");
     }
   };

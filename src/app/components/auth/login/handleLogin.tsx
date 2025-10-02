@@ -12,25 +12,40 @@ export const handleLoginSubmit = async (
 
   const { email, password } = user;
 
-  const { data, error } = await supabase
-    .from("users")
-    .select("id, userId, email, name, surname, role, password")
-    .eq("email", email)
-    .single();
-
-  if (error || !data) {
-    return { success: false, error: "Invalid email or password" };
+  if (!email || !password) {
+    return { success: false, error: "Email and password are required" };
   }
 
-  const isValid = await bcrypt.compare(password, data.password);
-  if (!isValid) {
-    return { success: false, error: "Invalid email or password" };
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .select("id, email, name, surname, password")
+      .eq("email", email)
+      .maybeSingle(); // ← safer than .single()
+
+    if (error) {
+      console.error("Supabase error:", error.message);
+      return { success: false, error: "Database error" };
+    }
+
+    if (!data) {
+      return { success: false, error: "User not found" };
+    }
+
+    const isValid = await bcrypt.compare(password, data.password);
+
+    if (!isValid) {
+      return { success: false, error: "Incorrect password" };
+    }
+
+    const { password: _, ...userSession } = data;
+
+    signIn(userSession);
+    resetForm();
+
+    return { success: true };
+  } catch (err) {
+    console.error("Login error:", err);
+    return { success: false, error: "An unexpected error occurred" };
   }
-
-  const { password: _, ...userSession } = data;
-
-  signIn(userSession);
-
-  resetForm();
-  return { success: true };
 };
