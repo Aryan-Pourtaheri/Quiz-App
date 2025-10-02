@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import ThreeQuizBackground from "./ThreeBackground";
 
 export default function Main() {
   // Parallax effect for animated background shapes
@@ -9,7 +10,7 @@ export default function Main() {
   // pt-20 ensures content never goes behind navbar (navbar is py-4 = 4rem)
   return (
     <main className="relative flex flex-col items-center justify-center min-h-screen p-8 overflow-hidden pt-60 pb-8 text-[var(--foreground)]">
-
+     <ThreeQuizBackground />
       {/* Animated, vibrant background shapes */}
       <motion.div
         className="absolute inset-0 -z-20 pointer-events-none"
