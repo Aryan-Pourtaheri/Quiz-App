@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import ThreeQuizBackground from "./ThreeBackground";
 
 export default function Main() {
   // Parallax effect for animated background shapes
