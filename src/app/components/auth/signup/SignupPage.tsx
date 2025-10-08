@@ -5,9 +5,16 @@ import Link from "next/link";
 import { UserContext } from "./newUserContext";
 import { HandleSignupSubmit } from "./HandleSignup";
 import AuthLayout from "../AuthLayout";
+import { getRoles } from "../getRoles";
 
 function SignupPage() {
   const ctx = useContext(UserContext);
+
+  const [role, setRole] = useState<'student' | 'teacher' | null>(null);
+
+  const handleSelect = (selectedRole: 'student' | 'teacher') => {
+    setRole(selectedRole);
+  };
 
   const [message, setMessage] = useState<{ text: string; success?: boolean } | null>(null);
 
@@ -21,7 +28,6 @@ function SignupPage() {
       return () => clearTimeout(timeout);
     }
   }, [message]);
-
 
   // If context is missing, just show a message (after hooks)
   if (!ctx) {
@@ -133,6 +139,31 @@ function SignupPage() {
           className="px-4 py-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3b82f6]"
           required
         />
+
+      <div className="flex gap-6 align-middle justify-center my-4 text-white">
+        <button
+          onClick={() => handleSelect('student')}
+          className={`px-8 py-3 rounded-2xl text-lg font-semibold border transition-all
+            ${role === 'student'
+              ? 'bg-blue-600 border-blue-600 shadow-lg shadow-blue-500/30 text-white'
+              : 'bg-gray-800 text-gray-200 hover:text-white hover:bg-gray-700'}
+          `}
+        >
+          Student
+        </button>
+
+        <button
+          onClick={() => handleSelect('teacher')}
+          className={`px-8 py-3 rounded-2xl text-lg font-semibold border transition-all
+            ${role === 'teacher'
+              ? 'bg-green-600 border-green-600 shadow-lg shadow-green-500/30 text-white'
+              : 'bg-gray-800 text-gray-200 hover:text-white hover:bg-gray-700'}
+          `}
+        >
+          Teacher
+        </button>
+      </div>
+
 
         <button
           type="submit"
