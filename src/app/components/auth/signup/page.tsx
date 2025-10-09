@@ -1,11 +1,14 @@
 import { UserProvider } from "./newUserContext";
+import { RoleProvider } from "./RoleContext";
 import SignupPage from "./SignupPage";
 
 export default function Page() {
   return (
 
     <UserProvider>
-      <SignupPage />
+      <RoleProvider>
+       <SignupPage />
+      </RoleProvider>
     </UserProvider>
 
   );

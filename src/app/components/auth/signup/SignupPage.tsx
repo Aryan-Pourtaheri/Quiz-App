@@ -5,12 +5,21 @@ import Link from "next/link";
 import { UserContext } from "./newUserContext";
 import { HandleSignupSubmit } from "./HandleSignup";
 import AuthLayout from "../AuthLayout";
-import { getRoles } from "../getRoles";
+import {RoleContext} from "./RoleContext";
 
 function SignupPage() {
-  const ctx = useContext(UserContext);
+  const userctx = useContext(UserContext);
+  const rolectx = useContext(RoleContext);
 
-  const [role, setRole] = useState<'student' | 'teacher' | null>(null);
+  // Safety check
+  if (!userctx) return <p className="text-red-500 text-center mt-20">⚠️ No UserContext provider found</p>;
+  if (!rolectx) return <p className="text-red-500 text-center mt-20">⚠️ No RoleContext provider found</p>;
+
+  const {role, setRole} = rolectx;
+
+  useEffect(() => {
+    console.log("Selected role:", role);
+  }, [role]);
 
   const handleSelect = (selectedRole: 'student' | 'teacher') => {
     setRole(selectedRole);
@@ -30,11 +39,11 @@ function SignupPage() {
   }, [message]);
 
   // If context is missing, just show a message (after hooks)
-  if (!ctx) {
+  if (!userctx) {
     return <p className="text-red-500 text-center mt-20">⚠️ No UserContext provider found</p>;
   }
 
-  const { newUser, setNewUser } = ctx;
+  const { newUser, setNewUser } = userctx;
 
   const changeUserData = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewUser(prev => ({
