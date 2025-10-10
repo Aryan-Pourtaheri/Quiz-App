@@ -17,10 +17,6 @@ function SignupPage() {
 
   const {role, setRole} = rolectx;
 
-  useEffect(() => {
-    console.log("Selected role:", role);
-  }, [role]);
-
   const handleSelect = (selectedRole: 'student' | 'teacher') => {
     setRole(selectedRole);
   };
@@ -87,7 +83,7 @@ function SignupPage() {
     <AuthLayout type="signup">
       <h2 className="text-3xl font-bold mb-6 text-[var(--text-color)]">Sign Up</h2>
       <form
-        onSubmit={e => HandleSignupSubmit(e, newUser, resetUser, showMessage)}
+        onSubmit={e => HandleSignupSubmit(e, newUser, resetUser, showMessage, role)}
         className="w-full flex flex-col gap-4"
       >
         <input
