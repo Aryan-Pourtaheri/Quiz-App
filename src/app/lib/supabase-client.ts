@@ -8,8 +8,8 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 export const supabase = createClient(
-  supabaseUrl!,
-  supabaseAnonKey!,
+  supabaseUrl,
+  supabaseAnonKey,
   {
     auth: {
       persistSession: true,

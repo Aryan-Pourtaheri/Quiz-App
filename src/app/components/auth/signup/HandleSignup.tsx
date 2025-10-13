@@ -1,14 +1,14 @@
 import { supabase } from "@/app/lib/supabase-client";
 import bcrypt from "bcryptjs";
 import { NewUserType } from "@/app/lib/Types";
-import { RoleType } from "./RoleContext";
+import { app_role } from "./RoleContext";
 
 export const HandleSignupSubmit = async (
   e: React.FormEvent<HTMLFormElement>,
   newUser: NewUserType,
   resetUser: () => void,
   setMessage: (text: string, success?: boolean) => void,
-  role: RoleType
+  role: app_role
 ) => {
   e.preventDefault();
 
@@ -16,6 +16,7 @@ export const HandleSignupSubmit = async (
     setMessage("❌ Please select a role before signing up.", false);
     return;
   }
+
 
   const { email, password, name, surname, DateOfBirth } = newUser;
 
