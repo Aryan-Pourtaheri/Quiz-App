@@ -12,6 +12,7 @@ export default function Header() {
   const { session } = useSession();
   const { toggleTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-[var(--navbar)] text-[#fbbf24] shadow-lg">
