@@ -19,10 +19,10 @@ export const handleLoginSubmit = async (
   try {
     const { data, error } = await supabase
       .from("users")
-      .select("id, email, name, surname, password")
+      .select("id, email, name, surname, password, role")
       .eq("email", email)
       .maybeSingle(); // ← safer than .single()
-
+      
     if (error) {
       console.error("Supabase error:", error.message);
       return { success: false, error: "Database error" };
