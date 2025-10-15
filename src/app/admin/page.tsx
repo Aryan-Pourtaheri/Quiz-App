@@ -8,8 +8,7 @@ import {
   Settings,
   LayoutDashboard,
   Bell,
-  Search,
-  TrendingUp,
+  Search
 } from "lucide-react";
 
 const AdminDashboard = () => {

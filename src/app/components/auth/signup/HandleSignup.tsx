@@ -18,7 +18,7 @@ export const HandleSignupSubmit = async (
   }
 
 
-  const { email, password, name, surname, DateOfBirth } = newUser;
+  const { email, password, name, surname, DateOfBirth, user_role_id } = newUser;
 
   try {
     // Create user in Supabase Auth
@@ -33,15 +33,29 @@ export const HandleSignupSubmit = async (
     }
 
     const user_id = authData.user.id;
+    // Assign role
+
+    const role_id = await supabase
+    .from("user_role")
+    .select("id")
+    .maybeSingle();
 
     // Add extra user info to 'users' table
-    const { error: userError } = await supabase.from("users").insert({
+    const { error: userError } = await supabase
+    .from("users")
+    .insert({
       user_id,
       name,
       surname,
       DateOfBirth,
       email,
       password: await bcrypt.hash(password, 10),
+      role_id
+    });
+
+    const { data: roleData,error: roleError } = await supabase.from("user_roles").insert({
+      user_id,
+      role
     });
 
     if (userError) {
@@ -50,11 +64,7 @@ export const HandleSignupSubmit = async (
       return;
     }
 
-    // Assign role
-    const { data: roleData,error: roleError } = await supabase.from("user_roles").insert({
-      user_id,
-      role
-    });
+
 
     if (roleError) {
       console.log("Role data:", roleData);

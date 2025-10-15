@@ -19,9 +19,19 @@ export const handleLoginSubmit = async (
   try {
     const { data, error } = await supabase
       .from("users")
-      .select("id, email, name, surname, password, role")
+      .select(`
+        id, 
+        user_id, 
+        email, 
+        name, 
+        surname, 
+        password,
+        user_role (
+          role
+        )
+      `)
       .eq("email", email)
-      .maybeSingle(); // ← safer than .single()
+      .maybeSingle();
       
     if (error) {
       console.error("Supabase error:", error.message);
@@ -38,7 +48,12 @@ export const handleLoginSubmit = async (
       return { success: false, error: "Incorrect password" };
     }
 
-    const { password: _, ...userSession } = data;
+    const { password: _, user_role, ...userWithoutPassword } = data;
+
+    const userSession = {
+      ...userWithoutPassword, 
+      role: user_role?.role || "user",
+    };
 
     signIn(userSession);
     resetForm();

@@ -8,7 +8,12 @@ export default function SessionWrapper({ children }: { children: React.ReactNode
 
   // Optional: block access if not logged in
   if (!session) {
-    return <p className="text-center text-red-500 mt-20">Not logged in. Please sign in first.</p>;
+    return (
+      <>
+        <p className="text-center text-red-500 mt-20">Not logged in. Please sign in first.</p>;
+        {children}
+      </>
+    )
   }
 
   return <>{children}</>;
