@@ -17,59 +17,62 @@ export const HandleSignupSubmit = async (
     return;
   }
 
-
-  const { email, password, name, surname, DateOfBirth, user_role_id } = newUser;
+  const { email, password, name, surname, DateOfBirth } = newUser;
 
   try {
-    // Create user in Supabase Auth
+    // 1️⃣ Create user in Supabase Auth
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
     });
-
     if (authError || !authData?.user) {
       setMessage(`❌ ${authError?.message || "Auth signup failed"}`, false);
       return;
     }
-
     const user_id = authData.user.id;
-    // Assign role
 
-    const role_id = await supabase
-    .from("user_role")
-    .select("id")
-    .maybeSingle();
+    // 2️⃣ Insert user details first
+    const { data: userInsertData, error: userError } = await supabase
+      .from("users")
+      .insert({
+        user_id,
+        name,
+        surname,
+        DateOfBirth,
+        email,
+        password: await bcrypt.hash(password, 10),
+      })
+      .select("id")
+      .single();
 
-    // Add extra user info to 'users' table
-    const { error: userError } = await supabase
-    .from("users")
-    .insert({
-      user_id,
-      name,
-      surname,
-      DateOfBirth,
-      email,
-      password: await bcrypt.hash(password, 10),
-      role_id
-    });
-
-    const { data: roleData,error: roleError } = await supabase.from("user_roles").insert({
-      user_id,
-      role
-    });
-
-    if (userError) {
-      console.error("User insert error:", userError);
-      setMessage(`❌ ${userError.message}`, false);
+    if (userError || !userInsertData) {
+      setMessage(`❌ Failed to create user: ${userError?.message}`, false);
       return;
     }
 
+    // 3️⃣ Now insert role referencing the existing user
+    const { data: roleInsertData, error: roleInsertError } = await supabase
+      .from("user_roles")
+      .insert({
+        user_id,
+        role,
+      })
+      .select("id")
+      .single();
 
+    if (roleInsertError || !roleInsertData) {
+      setMessage(`❌ Failed to assign role: ${roleInsertError?.message}`, false);
+      return;
+    }
 
-    if (roleError) {
-      console.log("Role data:", roleData);
-      console.error("Role insert error:", roleError);
-      setMessage(`❌ ${roleError.message}`, false);
+    // 4️⃣ Optionally update user record to attach user_role_id
+    const { error: updateError } = await supabase
+      .from("users")
+      .update({ user_role_id: roleInsertData.id })
+      .eq("user_id", user_id);
+
+    if (updateError) {
+      setMessage(`❌ Failed to link role: ${updateError.message}`, false);
       return;
     }
 
@@ -77,7 +80,7 @@ export const HandleSignupSubmit = async (
     resetUser();
 
   } catch (err) {
-    console.error(err);
+    console.error("Unexpected signup error:", err);
     setMessage("❌ Unexpected error during signup", false);
   }
 };
