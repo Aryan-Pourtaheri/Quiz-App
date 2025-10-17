@@ -9,7 +9,6 @@ export type NewUserType = {
   email: string;
   DateOfBirth: string;
   password: string;
-  user_role_id:number;
 };
 
 
