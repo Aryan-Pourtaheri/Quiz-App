@@ -10,7 +10,7 @@ export default function SessionWrapper({ children }: { children: React.ReactNode
   if (!session) {
     return (
       <>
-        <p className="text-center text-red-500 mt-20">Not logged in. Please sign in first.</p>;
+        <p className="text-center text-red-500 mt-20">Not logged in. Please sign in first.</p>
         {children}
       </>
     )
