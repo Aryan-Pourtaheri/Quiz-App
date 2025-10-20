@@ -20,7 +20,7 @@ export const HandleSignupSubmit = async (
   const { email, password, name, surname, DateOfBirth } = newUser;
 
   try {
-    // 1️⃣ Create user in Supabase Auth
+    // 1️⃣ Sign up the user via auth
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
@@ -29,50 +29,44 @@ export const HandleSignupSubmit = async (
       setMessage(`❌ ${authError?.message || "Auth signup failed"}`, false);
       return;
     }
+
     const user_id = authData.user.id;
 
-    // 2️⃣ Insert user details first
-    const { data: userInsertData, error: userError } = await supabase
-      .from("users")
-      .insert({
-        user_id,
-        name,
-        surname,
-        DateOfBirth,
-        email,
-        password: await bcrypt.hash(password, 10),
-      })
-      .select("id")
-      .single();
-
-    if (userError || !userInsertData) {
-      setMessage(`❌ Failed to create user: ${userError?.message}`, false);
+    // 2️⃣ Create user record (no role_id yet)
+    const { error: userError } = await supabase.from("users").insert({
+      user_id,
+      name,
+      surname,
+      DateOfBirth,
+      email,
+      password: await bcrypt.hash(password, 10),
+      user_role_id: null,
+    });
+    if (userError) {
+      setMessage(`❌ Failed to create user: ${userError.message}`, false);
       return;
     }
 
-    // 3️⃣ Now insert role referencing the existing user
-    const { data: roleInsertData, error: roleInsertError } = await supabase
+    // 3️⃣ Create user role linked to that user
+    const { data: roleData, error: roleError } = await supabase
       .from("user_roles")
-      .insert({
-        user_id,
-        role,
-      })
+      .insert({ user_id, role })
       .select("id")
       .single();
 
-    if (roleInsertError || !roleInsertData) {
-      setMessage(`❌ Failed to assign role: ${roleInsertError?.message}`, false);
+    if (roleError) {
+      setMessage(`❌ Failed to assign role: ${roleError.message}`, false);
       return;
     }
 
-    // 4️⃣ Optionally update user record to attach user_role_id
+    // 4️⃣ Update the user with the new role ID
     const { error: updateError } = await supabase
       .from("users")
-      .update({ user_role_id: roleInsertData.id })
+      .update({ user_role_id: roleData.id })
       .eq("user_id", user_id);
 
     if (updateError) {
-      setMessage(`❌ Failed to link role: ${updateError.message}`, false);
+      setMessage(`⚠️ Failed to update user with role: ${updateError.message}`, false);
       return;
     }
 
