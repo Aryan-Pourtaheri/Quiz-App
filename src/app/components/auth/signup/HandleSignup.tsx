@@ -20,11 +20,12 @@ export const HandleSignupSubmit = async (
   const { email, password, name, surname, DateOfBirth } = newUser;
 
   try {
-    // 1️⃣ Sign up the user via auth
+    // 1️⃣ Sign up in Supabase Auth
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
     });
+
     if (authError || !authData?.user) {
       setMessage(`❌ ${authError?.message || "Auth signup failed"}`, false);
       return;
@@ -32,41 +33,35 @@ export const HandleSignupSubmit = async (
 
     const user_id = authData.user.id;
 
-    // 2️⃣ Create user record (no role_id yet)
-    const { error: userError } = await supabase.from("users").insert({
-      user_id,
-      name,
-      surname,
-      DateOfBirth,
-      email,
-      password: await bcrypt.hash(password, 10),
-      user_role_id: null,
-    });
-    if (userError) {
-      setMessage(`❌ Failed to create user: ${userError.message}`, false);
-      return;
-    }
-
-    // 3️⃣ Create user role linked to that user
+    // 2️⃣ Create a role entry first
     const { data: roleData, error: roleError } = await supabase
       .from("user_roles")
       .insert({ user_id, role })
       .select("id")
       .single();
 
-    if (roleError) {
-      setMessage(`❌ Failed to assign role: ${roleError.message}`, false);
+    if (roleError || !roleData) {
+      setMessage(`❌ Failed to assign role: ${roleError?.message}`, false);
       return;
     }
 
-    // 4️⃣ Update the user with the new role ID
-    const { error: updateError } = await supabase
-      .from("users")
-      .update({ user_role_id: roleData.id })
-      .eq("user_id", user_id);
+    console.log(roleData);
 
-    if (updateError) {
-      setMessage(`⚠️ Failed to update user with role: ${updateError.message}`, false);
+    // 3️⃣ Insert user info with the correct foreign key
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const { error: userError } = await supabase.from("users").insert({
+      user_id,
+      name,
+      surname,
+      DateOfBirth,
+      email,
+      password: hashedPassword,
+      user_role_id: roleData.id, // ✅ role ID exists now
+    });
+
+    if (userError) {
+      setMessage(`❌ Failed to create user: ${userError.message}`, false);
       return;
     }
 
