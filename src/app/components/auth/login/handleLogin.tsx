@@ -17,42 +17,46 @@ export const handleLoginSubmit = async (
   }
 
   try {
-    const { data, error } = await supabase
+    // ✅ Step 1: Get user info
+    const { data: userData, error: userError } = await supabase
       .from("users")
-      .select(`
-        id, 
-        user_id, 
-        email, 
-        name, 
-        surname, 
-        password,
-        user_role (
-          role
-        )
-      `)
+      .select("id, user_id, email, name, surname, password")
       .eq("email", email)
       .maybeSingle();
-      
-    if (error) {
-      console.error("Supabase error:", error.message);
+
+    if (userError) {
+      console.error("Supabase error:", userError.message);
       return { success: false, error: "Database error" };
     }
 
-    if (!data) {
+    if (!userData) {
       return { success: false, error: "User not found" };
     }
 
-    const isValid = await bcrypt.compare(password, data.password);
+    // ✅ Step 2: Get role info
+    const { data: roleData, error: roleError } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userData.user_id)
+      .maybeSingle();
+
+    if (roleError) {
+      console.error("Role fetch error:", roleError.message);
+    }
+
+    // ✅ Step 3: Validate password
+    const isValid = await bcrypt.compare(password, userData.password);
 
     if (!isValid) {
       return { success: false, error: "Incorrect password" };
     }
 
-    const { password: _, user_role, ...userWithoutPassword } = data;
+    // ✅ Step 4: Create user session
+    const { password: _, ...userWithoutPassword } = userData;
 
     const userSession = {
-      ...userWithoutPassword, 
-      role: user_role?.role || "user",
+      ...userWithoutPassword,
+      role: roleData?.role || "user",
     };
 
     signIn(userSession);
