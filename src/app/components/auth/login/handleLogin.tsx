@@ -33,10 +33,10 @@ export const handleLoginSubmit = async (
       return { success: false, error: "User not found" };
     }
 
-    // ✅ Step 2: Get role info
+    // ✅ Step 2: Get role info (get both id and role)
     const { data: roleData, error: roleError } = await supabase
       .from("user_roles")
-      .select("role")
+      .select("id, role")
       .eq("user_id", userData.user_id)
       .maybeSingle();
 
@@ -51,11 +51,12 @@ export const handleLoginSubmit = async (
       return { success: false, error: "Incorrect password" };
     }
 
-    // ✅ Step 4: Create user session
+    // ✅ Step 4: Create user session (include role_id and role)
     const { password: _, ...userWithoutPassword } = userData;
 
     const userSession = {
       ...userWithoutPassword,
+      role_id: roleData?.id || null,
       role: roleData?.role || "user",
     };
 
