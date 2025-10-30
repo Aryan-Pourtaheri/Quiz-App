@@ -47,7 +47,6 @@ export const HandleSignupSubmit = async (
       .select("user_id")
       .single();
 
-    console.log(userData)
 
     if (userError) {
       setMessage(`❌ Failed to create user: ${userError.message}`, false);
@@ -64,7 +63,6 @@ export const HandleSignupSubmit = async (
       .select("id")
       .single();
 
-      console.log(roleData);
 
     if (roleError) {
       setMessage(`❌ Failed to assign role: ${roleError.message}`, false);
