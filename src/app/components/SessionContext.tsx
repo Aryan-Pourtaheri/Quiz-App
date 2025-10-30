@@ -38,8 +38,6 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     setSession(null);
   };
 
-  console.log(session)
-
   return (
     <SessionContext.Provider value={{ session, signIn, signOut }}>
       {children}
